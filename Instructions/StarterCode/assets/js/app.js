@@ -33,7 +33,7 @@ d3.csv("assets/data/data.csv").then(function(inputData) {
         dataRow.poverty =+ dataRow.poverty;
         dataRow.healthcare =+ dataRow.healthcare;
     });
-    // scale 
+    // scales
     var xScale = d3.scaleLinear()
         .domain([5, d3.max(inputData, d => d.poverty)])
         .range([0, width]);
@@ -42,7 +42,7 @@ d3.csv("assets/data/data.csv").then(function(inputData) {
         .domain([0, d3.max(inputData, d => d.healthcare)])
         .range([height, 0]);
 
-    // Create axis 
+    // Axis creation
     var bottomAxis = d3.axisBottom(xScale);
     var leftAxis = d3.axisLeft(yScale);
 
@@ -54,7 +54,7 @@ d3.csv("assets/data/data.csv").then(function(inputData) {
     chartGroup.append("g")
         .call(leftAxis);
 
-    // make circle to state abb
+    
     var circlesGroup = chartGroup.selectAll("circle")
         .data(inputData)
         .enter()
@@ -84,7 +84,7 @@ d3.csv("assets/data/data.csv").then(function(inputData) {
         return data.abbr
     });
             
-    // setup tip
+    // setup tooltip
     var toolTip = d3.tip()
         .attr("class", "tooltip")
         .offset([80, -60])
@@ -92,18 +92,18 @@ d3.csv("assets/data/data.csv").then(function(inputData) {
             return (`${d.state}<br>In Poverty (%) ${d.poverty}<br>Lacks Healthcare (%) ${d.healthcare}`)
         });
         
-    // tooltip in the chart
+    // tooltip for chart
     chartGroup.call(toolTip);
 
-    // Create listeners to display and hide the tooltip
+    // Create listeners for tooltip
     circlesGroup.on("mouseover", function(data) {
         toolTip.show(data, this);
     })
-    // Mouseout
+    // for Mouseout
     .on("mouseout", function(data, index) {
         toolTip.hide(data);
     });
-    // Create axes labels  
+    // Create  labels  for axis
     chartGroup.append("text")
         .attr("transform", "rotate(-90)")
         .attr("y", 0 - margin.left + 40)
